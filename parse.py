@@ -12,6 +12,7 @@ import os.path
 import os
 import argparse
 import glob
+import csv
 
 from candidate import *
 from contribution import *
@@ -101,8 +102,12 @@ def main(rawDir, outDir):
 	contribProps = [x for x in dir(dummyContrib) if x[0].isupper()]
 
 	outFile = outDir + os.sep + "contributions.csv"
-	f = open(outFile, 'w')
-	f.write(','.join(contribProps) + ','.join(candProps) + ','.join(commProps) + '\n')
+	f = csv.writer(open(outFile, 'w'), delimiter = ',', quotechar = '"', quoting = csv.QUOTE_ALL)
+	line = []
+	line.extend(contribProps)
+	line.extend(candProps)
+	line.extend(commProps)
+	f.writerow(line)
 	idx = -1
 	candDict = candDicts[idx]
 	commDict = commDicts[idx]
@@ -124,9 +129,8 @@ def main(rawDir, outDir):
 			line.append(getattr(cand, p))
 		for p in commProps:
 			line.append(getattr(comm, p))
-		f.write(','.join(line) + '\n')
+		f.writerow(line)
 
-	f.close()
 	
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description = 'Parse candidate contributions data')
