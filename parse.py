@@ -3,6 +3,9 @@
 """
 Parse FEC data from 2005-2012 of campaign contributions from committees
 Data obtained from: http://www.fec.gov/finance/disclosure/ftpdet.shtml
+
+Example usage:
+python2.7 parse.py ../Raw\ Data/ ../out
 """
 
 import os.path
