@@ -108,28 +108,28 @@ def main(rawDir, outDir):
 	line.extend(candProps)
 	line.extend(commProps)
 	f.writerow(line)
-	idx = -1
-	candDict = candDicts[idx]
-	commDict = commDicts[idx]
-	contribDict = contribDicts[idx]
-	for key in contribDict.keys()[0:10]:
-		contrib = contribDict[key]
-		if candDict.has_key(contrib.ContributionCandidateIdNumber):
-			cand = candDict[contrib.ContributionCandidateIdNumber]
-		else:
-			cand = Candidate(['\N'] * 15)
-		if commDict.has_key(contrib.ContributionOtherIdNumber):
-			comm = commDict[contrib.ContributionOtherIdNumber]
-		else:
-			comm = Committee(['\N'] * 15)
-		line = []
-		for p in contribProps:
-			line.append(getattr(contrib, p))
-		for p in candProps:
-			line.append(getattr(cand, p))
-		for p in commProps:
-			line.append(getattr(comm, p))
-		f.writerow(line)
+	for idx in range(len(contribDicts)):
+		candDict = candDicts[idx]
+		commDict = commDicts[idx]
+		contribDict = contribDicts[idx]
+		for key in contribDict.keys()[0:10]:
+			contrib = contribDict[key]
+			if candDict.has_key(contrib.ContributionCandidateIdNumber):
+				cand = candDict[contrib.ContributionCandidateIdNumber]
+			else:
+				cand = Candidate(['\N'] * 15)
+			if commDict.has_key(contrib.ContributionOtherIdNumber):
+				comm = commDict[contrib.ContributionOtherIdNumber]
+			else:
+				comm = Committee(['\N'] * 15)
+			line = []
+			for p in contribProps:
+				line.append(getattr(contrib, p))
+			for p in candProps:
+				line.append(getattr(cand, p))
+			for p in commProps:
+				line.append(getattr(comm, p))
+			f.writerow(line)
 
 	
 if __name__ == '__main__':
