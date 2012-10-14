@@ -84,17 +84,8 @@ def main(rawDir, outDir):
 	cnFiles, cmFiles, contribFiles = r
 
 	candDicts = buildCandDicts(cnFiles)
-	print len(candDicts)
-	print len(candDicts[0].keys())
-	print len(candDicts[-1].keys())
 	commDicts = buildCommDicts(cmFiles)
-	print len(commDicts)
-	print len(commDicts[0].keys())
-	print len(commDicts[-1].keys())
 	contribDicts = buildContribDicts(contribFiles)
-	print len(contribDicts)
-	print len(contribDicts[0].keys())
-	print len(contribDicts[-1].keys())
 	
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description = 'Parse candidate contributions data')
