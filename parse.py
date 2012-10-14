@@ -48,6 +48,7 @@ def buildCandDicts(cnFiles):
 			cand = Candidate(line.split('|'))
 			thisDict[cand.CandidateId] = cand
 		candDicts.append(thisDict)
+		f.close()
 
 	return candDicts
 
@@ -61,6 +62,7 @@ def buildCommDicts(cmFiles):
 			comm = Committee(line.split('|'))
 			thisDict[comm.CommitteeId] = comm
 		commDicts.append(thisDict)
+		f.close()
 
 	return commDicts
 
@@ -74,6 +76,7 @@ def buildContribDicts(contribFiles):
 			contrib = Contribution(line.split('|'))
 			thisDict[contrib.ContributionFECRecordNumber] = contrib
 		contribDicts.append(thisDict)
+		f.close()
 
 	return contribDicts
 
