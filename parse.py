@@ -45,7 +45,7 @@ def buildCandDicts(cnFiles):
 		thisDict = {}
 		f = open(fileName, 'r')
 		for line in f:
-			cand = Candidate(line.split('|'))
+			cand = Candidate(line.strip().split('|'))
 			thisDict[cand.CandidateId] = cand
 		candDicts.append(thisDict)
 		f.close()
@@ -59,7 +59,7 @@ def buildCommDicts(cmFiles):
 		thisDict = {}
 		f = open(fileName, 'r')
 		for line in f:
-			comm = Committee(line.split('|'))
+			comm = Committee(line.strip().split('|'))
 			thisDict[comm.CommitteeId] = comm
 		commDicts.append(thisDict)
 		f.close()
@@ -73,7 +73,7 @@ def buildContribDicts(contribFiles):
 		thisDict = {}
 		f = open(fileName, 'r')
 		for line in f:
-			contrib = Contribution(line.split('|'))
+			contrib = Contribution(line.strip().split('|'))
 			thisDict[contrib.ContributionFECRecordNumber] = contrib
 		contribDicts.append(thisDict)
 		f.close()
@@ -89,6 +89,44 @@ def main(rawDir, outDir):
 	candDicts = buildCandDicts(cnFiles)
 	commDicts = buildCommDicts(cmFiles)
 	contribDicts = buildContribDicts(contribFiles)
+	print len(contribDicts[-1])
+	print len(commDicts[-1])
+	print len(candDicts[-1])
+
+	dummyCand = Candidate(range(15))
+	dummyComm = Committee(range(15))
+	dummyContrib = Contribution(range(22))
+	candProps = [x for x in dir(dummyCand) if x[0].isupper()]
+	commProps = [x for x in dir(dummyComm) if x[0].isupper()]
+	contribProps = [x for x in dir(dummyContrib) if x[0].isupper()]
+
+	outFile = outDir + os.sep + "contributions.csv"
+	f = open(outFile, 'w')
+	f.write(','.join(contribProps) + ','.join(candProps) + ','.join(commProps) + '\n')
+	idx = -1
+	candDict = candDicts[idx]
+	commDict = commDicts[idx]
+	contribDict = contribDicts[idx]
+	for key in contribDict.keys()[0:10]:
+		contrib = contribDict[key]
+		if candDict.has_key(contrib.ContributionCandidateIdNumber):
+			cand = candDict[contrib.ContributionCandidateIdNumber]
+		else:
+			cand = Candidate(['\N'] * 15)
+		if commDict.has_key(contrib.ContributionOtherIdNumber):
+			comm = commDict[contrib.ContributionOtherIdNumber]
+		else:
+			comm = Committee(['\N'] * 15)
+		line = []
+		for p in contribProps:
+			line.append(getattr(contrib, p))
+		for p in candProps:
+			line.append(getattr(cand, p))
+		for p in commProps:
+			line.append(getattr(comm, p))
+		f.write(','.join(line) + '\n')
+
+	f.close()
 	
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description = 'Parse candidate contributions data')
