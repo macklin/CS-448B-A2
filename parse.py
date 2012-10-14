@@ -112,7 +112,7 @@ def main(rawDir, outDir):
 		candDict = candDicts[idx]
 		commDict = commDicts[idx]
 		contribDict = contribDicts[idx]
-		for key in contribDict.keys()[0:10]:
+		for key in contribDict.keys():
 			contrib = contribDict[key]
 			if candDict.has_key(contrib.ContributionCandidateIdNumber):
 				cand = candDict[contrib.ContributionCandidateIdNumber]
